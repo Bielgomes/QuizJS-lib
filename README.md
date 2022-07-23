@@ -33,7 +33,7 @@ quizControl.addQuestion(
 ```
 
 ## Iniciando o Quiz
-Basta utilizar o DOM e pegar a div que foi criada nos passos anteriores e chamar a função start
+Dentro do seu arquivo JS Bbasta utilizar do DOM para pegar a div que foi criada nos passos anteriores e chamar a função start
 ```js
 quizControl.start(document.getElementById('quizJSContainer'))
 ```
