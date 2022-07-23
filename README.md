@@ -11,11 +11,11 @@ Basta incluir este código no body da sua página
 ```
 
 ## Criando o Quiz
-Para a criação do quiz, primeiro você deve criar uma div com um id, e coloca-ló no seu body
+Primeiro você deve criar uma div com um id, e coloca-ló no seu body
 ```html
 <div id="quizJSContainer"></div>
 ```
-Dentro de um arquivo JS, você deve instanciar o QuizController e adicionar suas perguntas:
+Dentro de um arquivo JS, você deve instanciar o QuizControl e adicionar suas perguntas:
 ```js
 const quizControl = new QuizControl()
 
