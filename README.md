@@ -7,7 +7,7 @@
 Basta incluir este código no body da sua página
 
 ```html
-<script src="https://github.com/Bielgomes/QuizJS-lib/blob/main/QuizJS-Lib/dist/QuizJS.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/Bielgomes/QuizJS-lib@main/QuizJS-Lib/dist/QuizJS.js"></script>
 ```
 
 ## Criando o Quiz
