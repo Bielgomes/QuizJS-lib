@@ -13,7 +13,7 @@ class Question {
   }
 }
 
-class QuizController {
+class QuizControl {
 
   questions: Question[];
   currentQuestion: number;

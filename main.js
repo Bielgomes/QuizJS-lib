@@ -1,4 +1,4 @@
-const quizControl = new QuizController()
+const quizControl = new QuizControl()
 
 quizControl.addQuestion(
   'https://gallasdisperati.com.br/blog/wp-content/uploads/sites/2/2021/12/capital-da-holanda-2.jpg',
