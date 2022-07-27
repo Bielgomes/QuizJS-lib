@@ -1,5 +1,14 @@
 const quizControl = new QuizControl()
 
+quizControl.setSounds(
+  document.getElementById('sound-correct'),
+  document.getElementById('sound-wrong')
+)
+
+quizControl.setShuffleOptions(true)
+
+quizControl.setShuffleQuestions(true)
+
 quizControl.addQuestion(
   'https://gallasdisperati.com.br/blog/wp-content/uploads/sites/2/2021/12/capital-da-holanda-2.jpg',
   'É um país da Europa! seu idioma é o Holandes, que país é este?',
@@ -58,11 +67,6 @@ quizControl.addQuestion(
     'Sul'
   ], 
   1
-)
-
-quizControl.setSounds(
-  document.getElementById('sound-correct'),
-  document.getElementById('sound-wrong')
 )
 
 quizControl.start(document.getElementById('quizJSContainer'))
