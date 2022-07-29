@@ -24,13 +24,11 @@ class Question {
 }
 
 class QuizControl {
-
-  answersAmount: number;
+  currentQuestion: number
   score: number;
   haveSounds: boolean
   shuffleOptions: boolean
   shuffleQuestions: boolean
-  originalQuestions: Question[];
   questions: Question[];
   guesses: string[];
   container: HTMLDivElement;
@@ -38,12 +36,11 @@ class QuizControl {
   wrongSoundElement: HTMLAudioElement;
 
   constructor() {
-    this.answersAmount = 0
+    this.currentQuestion = 0
     this.score = 0
     this.haveSounds = false
     this.shuffleOptions = false
     this.shuffleQuestions = false
-    this.originalQuestions = []
     this.questions = [];
     this.guesses = []
   }
@@ -63,29 +60,29 @@ class QuizControl {
     this.shuffleQuestions = shuffle
   }
 
+  shuffleQuestionsArray(): void {
+    this.questions = this.questions.sort(() => Math.random() - 0.5)
+  }
+
   addQuestion(image: URL, content: string, options: string[], correctAnswer: number): void {
     const newQuestion = new Question(image, content, options, correctAnswer)
-    
-    if (this.shuffleOptions)
-      newQuestion.shuffleOptions()
-    
     this.questions.push(newQuestion)
   }
 
   start(container: HTMLDivElement): void {
     this.container = container
     this.container.innerHTML = ""
-    this.originalQuestions = [...this.questions]
-    this.renderQuestion(this.answersAmount)
     this.applyStyles()
+    if (this.shuffleQuestions)
+      this.shuffleQuestionsArray()
+    this.renderQuestion(this.currentQuestion)
   }
 
   reset(): void {
-    this.answersAmount = 0
+    this.currentQuestion = 0
     this.score = 0
     this.guesses = []
-    this.questions = [...this.originalQuestions]
-    this.renderQuestion(this.answersAmount)
+    this.renderQuestion(this.currentQuestion)
   }
 
   showResult(): void {
@@ -93,7 +90,7 @@ class QuizControl {
       <div class="quizJSContent">
         <div id="quizJSQuestionsOverall"></div>
         <div class="quizJScore">
-          <strong>Você acertou ${this.score} de ${this.originalQuestions.length} perguntas!</strong>
+          <strong>Você acertou ${this.score} de ${this.questions.length} perguntas!</strong>
           <button id="quizJSRemakeButton">Refazer</button>
         </div>
       </div>
@@ -107,15 +104,10 @@ class QuizControl {
   }
 
   renderQuestion(index: number): void {
-    let data: Question
+    const data = this.questions[index];
 
-    if (this.shuffleQuestions) {
-      const randomIndex = Math.floor(Math.random() * this.questions.length)
-      data = this.questions[randomIndex]
-      this.questions.splice(randomIndex, 1)
-    } else {
-      data = this.questions[index];
-    }
+    if (this.shuffleOptions)
+      data.shuffleOptions()
 
     this.container.innerHTML = `
       <div class="quizJSContent">
@@ -152,9 +144,9 @@ class QuizControl {
           }
         }
 
-        if (this.answersAmount < this.originalQuestions.length - 1) {
-          this.answersAmount++
-          this.renderQuestion(this.answersAmount)
+        if (this.currentQuestion < this.questions.length - 1) {
+          this.currentQuestion++
+          this.renderQuestion(this.currentQuestion)
         } else {
           this.showResult()
         }
@@ -176,7 +168,7 @@ class QuizControl {
       questionsOverral.appendChild(question)
     }
 
-    for (let i = 0; i < this.originalQuestions.length - this.guesses.length; i++) {
+    for (let i = 0; i < this.questions.length - this.guesses.length; i++) {
       let question = document.createElement("span")
       
       if (i == 0) {
@@ -310,6 +302,7 @@ class QuizControl {
 
     const style = document.createElement('style');
     style.innerHTML = styles;
+    style.type = 'text/css';
     document.head.appendChild(style);
   }
 }
