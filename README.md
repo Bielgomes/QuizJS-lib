@@ -47,11 +47,17 @@ quizControl.setSounds(
 )
 ```
 
-Além dos sons, podemos ativar o embaralhamento das questões e das respostas
+Podemos ativar o embaralhamento das questões e das respostas
 ```js
 // Embaralha as respostas de cada questão
 quizControl.setShuffleOptions(true) // Por padrão é false
 
 // Embaralha a ordem em que as questões aparecem
 quizControl.setShuffleQuestions(true) // Por padrão é false
+```
+
+Escolhendo o tema
+```
+// Por padrão é dark
+quizControl.setTheme('light')
 ```
