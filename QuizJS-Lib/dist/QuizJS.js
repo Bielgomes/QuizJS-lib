@@ -17,6 +17,7 @@ var Question = /** @class */ (function () {
 }());
 var QuizControl = /** @class */ (function () {
     function QuizControl() {
+        this.theme = 'dark';
         this.currentQuestion = 0;
         this.score = 0;
         this.haveSounds = false;
@@ -29,6 +30,9 @@ var QuizControl = /** @class */ (function () {
         this.correctSoundElement = correctSoundElement;
         this.wrongSoundElement = wrongSoundElement;
         this.haveSounds = true;
+    };
+    QuizControl.prototype.setTheme = function (theme) {
+        this.theme = theme;
     };
     QuizControl.prototype.setShuffleOptions = function (shuffle) {
         this.shuffleOptions = shuffle;
@@ -55,6 +59,8 @@ var QuizControl = /** @class */ (function () {
         this.currentQuestion = 0;
         this.score = 0;
         this.guesses = [];
+        if (this.shuffleQuestions)
+            this.shuffleQuestionsArray();
         this.renderQuestion(this.currentQuestion);
     };
     QuizControl.prototype.showResult = function () {
@@ -123,7 +129,29 @@ var QuizControl = /** @class */ (function () {
         }
     };
     QuizControl.prototype.applyStyles = function () {
-        var styles = "\n      #".concat(this.container.id, " {\n        display: flex;\n        justify-content: center;\n\n        user-select: none;\n        user-drag: none;\n      }\n      \n      #quizJSQuestionsOverall {\n        padding-top: 1.625rem;\n\n        flex-wrap: wrap;\n\n        display: flex;\n        align-items: center;\n        justify-content: center;\n\n        gap: 1.625rem;\n      }\n\n      #quizJSQuestionsOverall span {\n        width: 24px;\n        height: 24px;\n        \n        border-radius: 999px;\n        background-color: #CBD5E1;\n      }\n\n      #quizJSQuestionsOverall span[data-type=\"correct\"] {\n        background-color: #4ade80;\n      }\n\n      #quizJSQuestionsOverall span[data-type=\"wrong\"] {\n        background-color: #f87171;\n      }\n\n      #quizJSQuestionsOverall span[data-type=\"current\"] {\n        background-color: #94a3b8;\n      }\n      \n      .quizJSContent {\n        width: 84.5rem;\n        min-height: 40.75rem;\n      \n        background-color: #1F2937;\n      \n        display: flex;\n        flex-direction: column;\n        align-items: center;\n      \n        border-radius: 8px;\n      \n        color: #FFFFFF;\n\n        padding-bottom: 1rem;\n      \n        font-family: 'Andale Mono', monospace;\n      }\n      \n      .quizJSContent img {\n        width: 42rem;\n        height: 15.875rem;\n        padding-top: 1.187rem;\n      \n        object-fit: cover;\n      }\n      \n      .quizJSContent button {\n        width: 17.937rem;\n        height: 4.125rem;\n    \n        background-color: #CBD5E1;\n    \n        color: #404040;\n    \n        border-radius: 4px;\n        border: 0;\n    \n        transition: background-color 0.4s;\n    \n        font-family: 'Andale Mono', monospace;\n      }\n      \n      .quizJSContent button:hover {\n        background-color: #9CA3AF;\n      \n      }\n      \n      .quizJSContent strong{\n        font-weight: bold;\n        font-size: 1.562rem;\n        line-height: 22px;    \n    \n        padding: 1.812rem 0;\n      }\n      \n      #quizJSColumn {\n        display: flex;\n        flex-direction: row;\n        flex-wrap: wrap;\n      \n        justify-content: center;\n      \n        gap: 1.375rem;\n      }\n\n      .quizJScore {\n        width: 100%;\n        height: 100%;\n\n        display: flex;\n        flex-direction: column;\n        justify-content: center;\n        align-items: center;\n\n        text-shadow: 0 0 1px #FFFFFF;\n      }\n    ");
+        var primaryColor;
+        var backgroundColor;
+        var ButtonHover;
+        var titleColor;
+        var textColor;
+        var currentType;
+        if (this.theme == 'dark') {
+            backgroundColor = '#1F2937';
+            ButtonHover = '#9CA3AF';
+            primaryColor = '#CBD5E1';
+            titleColor = '#FFFFFF';
+            textColor = '#404040';
+            currentType = '#94A3B8';
+        }
+        else {
+            backgroundColor = '#94A3B8';
+            ButtonHover = '#9CA3AF';
+            primaryColor = '#CBD5E1';
+            titleColor = 'black';
+            textColor = '#404040';
+            currentType = '#64748b';
+        }
+        var styles = "\n      #".concat(this.container.id, " {\n        display: flex;\n        justify-content: center;\n\n        user-select: none;\n        -webkit-user-drag: none\n      }\n      \n      #quizJSQuestionsOverall {\n        padding-top: 1.625rem;\n\n        flex-wrap: wrap;\n\n        display: flex;\n        align-items: center;\n        justify-content: center;\n\n        gap: 1.625rem;\n      }\n\n      #quizJSQuestionsOverall span {\n        width: 24px;\n        height: 24px;\n        \n        border-radius: 999px;\n        background-color: ").concat(primaryColor, ";\n      }\n\n      #quizJSQuestionsOverall span[data-type=\"correct\"] {\n        background-color: #4ade80;\n      }\n\n      #quizJSQuestionsOverall span[data-type=\"wrong\"] {\n        background-color: #f87171;\n      }\n\n      #quizJSQuestionsOverall span[data-type=\"current\"] {\n        background-color: ").concat(currentType, ";\n      }\n      \n      .quizJSContent {\n        width: 84.5rem;\n        min-height: 40.75rem;\n      \n        background-color: ").concat(backgroundColor, ";\n      \n        display: flex;\n        flex-direction: column;\n        align-items: center;\n      \n        border-radius: 8px;\n      \n        color: ").concat(titleColor, ";\n\n        padding-bottom: 1rem;\n      \n        font-family: 'Andale Mono', monospace;\n      }\n      \n      .quizJSContent img {\n        width: 42rem;\n        height: 15.875rem;\n        padding-top: 1.187rem;\n      \n        object-fit: cover;\n\n        border-radius: 8px;\n      }\n      \n      .quizJSContent button {\n        width: 17.937rem;\n        height: 4.125rem;\n    \n        background-color: ").concat(primaryColor, ";\n    \n        color: ").concat(textColor, ";\n\n        border-radius: 4px;\n        border: 0;\n    \n        transition: background-color 0.4s;\n    \n        font-family: 'Andale Mono', monospace;\n        font-weight: bold;\n      }\n      \n      .quizJSContent button:hover {\n        background-color: ").concat(ButtonHover, ";\n      \n      }\n      \n      .quizJSContent strong {\n        font-weight: bold;\n        font-size: 1.562rem;\n        line-height: 22px;    \n    \n        padding: 1.812rem 0;\n      }\n      \n      #quizJSColumn {\n        display: flex;\n        flex-direction: row;\n        flex-wrap: wrap;\n      \n        justify-content: center;\n      \n        gap: 1.375rem;\n      }\n\n      .quizJScore {\n        width: 100%;\n        height: 100%;\n\n        display: flex;\n        flex-direction: column;\n        justify-content: center;\n        align-items: center;\n\n        text-shadow: 0 0 1px ").concat(titleColor, ";\n      }\n    ");
         var style = document.createElement('style');
         style.innerHTML = styles;
         style.type = 'text/css';

@@ -24,6 +24,7 @@ class Question {
 }
 
 class QuizControl {
+  theme: 'dark' | 'light'
   currentQuestion: number
   score: number;
   haveSounds: boolean
@@ -36,6 +37,7 @@ class QuizControl {
   wrongSoundElement: HTMLAudioElement;
 
   constructor() {
+    this.theme = 'dark'
     this.currentQuestion = 0
     this.score = 0
     this.haveSounds = false
@@ -50,6 +52,10 @@ class QuizControl {
     this.wrongSoundElement = wrongSoundElement
 
     this.haveSounds = true
+  }
+
+  setTheme(theme: 'dark' | 'light'): void {
+    this.theme = theme
   }
 
   setShuffleOptions(shuffle: boolean): void {
@@ -73,8 +79,10 @@ class QuizControl {
     this.container = container
     this.container.innerHTML = ""
     this.applyStyles()
+
     if (this.shuffleQuestions)
       this.shuffleQuestionsArray()
+
     this.renderQuestion(this.currentQuestion)
   }
 
@@ -82,6 +90,10 @@ class QuizControl {
     this.currentQuestion = 0
     this.score = 0
     this.guesses = []
+
+    if (this.shuffleQuestions)
+      this.shuffleQuestionsArray()
+
     this.renderQuestion(this.currentQuestion)
   }
 
@@ -180,13 +192,36 @@ class QuizControl {
   }
 
   applyStyles(): void {
+    let primaryColor: string
+    let backgroundColor: string
+    let ButtonHover: string
+    let titleColor: string
+    let textColor: string
+    let currentType: string
+
+    if (this.theme == 'dark') {
+      backgroundColor = '#1F2937'
+      ButtonHover = '#9CA3AF'
+      primaryColor = '#CBD5E1'
+      titleColor = '#FFFFFF'
+      textColor = '#404040'
+      currentType = '#94A3B8'
+    } else {
+      backgroundColor = '#94A3B8'
+      ButtonHover = '#9CA3AF'
+      primaryColor = '#CBD5E1'
+      titleColor = 'black'
+      textColor = '#404040'
+      currentType = '#64748b'
+    }
+
     let styles = `
       #${this.container.id} {
         display: flex;
         justify-content: center;
 
         user-select: none;
-        user-drag: none;
+        -webkit-user-drag: none
       }
       
       #quizJSQuestionsOverall {
@@ -206,7 +241,7 @@ class QuizControl {
         height: 24px;
         
         border-radius: 999px;
-        background-color: #CBD5E1;
+        background-color: ${primaryColor};
       }
 
       #quizJSQuestionsOverall span[data-type="correct"] {
@@ -218,14 +253,14 @@ class QuizControl {
       }
 
       #quizJSQuestionsOverall span[data-type="current"] {
-        background-color: #94a3b8;
+        background-color: ${currentType};
       }
       
       .quizJSContent {
         width: 84.5rem;
         min-height: 40.75rem;
       
-        background-color: #1F2937;
+        background-color: ${backgroundColor};
       
         display: flex;
         flex-direction: column;
@@ -233,7 +268,7 @@ class QuizControl {
       
         border-radius: 8px;
       
-        color: #FFFFFF;
+        color: ${titleColor};
 
         padding-bottom: 1rem;
       
@@ -246,30 +281,33 @@ class QuizControl {
         padding-top: 1.187rem;
       
         object-fit: cover;
+
+        border-radius: 8px;
       }
       
       .quizJSContent button {
         width: 17.937rem;
         height: 4.125rem;
     
-        background-color: #CBD5E1;
+        background-color: ${primaryColor};
     
-        color: #404040;
-    
+        color: ${textColor};
+
         border-radius: 4px;
         border: 0;
     
         transition: background-color 0.4s;
     
         font-family: 'Andale Mono', monospace;
+        font-weight: bold;
       }
       
       .quizJSContent button:hover {
-        background-color: #9CA3AF;
+        background-color: ${ButtonHover};
       
       }
       
-      .quizJSContent strong{
+      .quizJSContent strong {
         font-weight: bold;
         font-size: 1.562rem;
         line-height: 22px;    
@@ -296,11 +334,11 @@ class QuizControl {
         justify-content: center;
         align-items: center;
 
-        text-shadow: 0 0 1px #FFFFFF;
+        text-shadow: 0 0 1px ${titleColor};
       }
     `
 
-    const style = document.createElement('style');
+    const style = document.createElement('style')
     style.innerHTML = styles;
     style.type = 'text/css';
     document.head.appendChild(style);
