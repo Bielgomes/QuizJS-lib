@@ -1,17 +1,30 @@
-# Documentação
-##### QuizJS é uma biblioteca simples para a criação de Quizzes com HTML e Javascript
+# QuizJS Lib
 <img src="https://i.imgur.com/8iH76R0.gif">
+QuizJS é uma biblioteca simples para a criação de Quizzes com HTML e Javascript
 
-# Iniciando
+## Funcionalidades
+- Permite a criação de quizzes customizáveis;
 
-## Instalação
+## Linguagens Utilizadas
+- JavaScript
+- CSS
+- HTML
+
+## Links
+<a href="https://bielgomes.github.io/QuizJS-lib/">Acesse o exemplo</a>
+
+# Documentação
+
+## Iniciando
+
+### Instalação
 Basta incluir este código no body da sua página
 
 ```html
 <script src="https://cdn.jsdelivr.net/gh/Bielgomes/QuizJS-lib@v1.0.3/QuizJS-Lib/dist/QuizJS.js"></script>
 ```
 
-## Criando o Quiz
+### Criando o Quiz
 Primeiro você deve criar uma div com um id, e coloca-ló no seu body
 ```html
 <div id="quizJSContainer"></div>
@@ -33,7 +46,7 @@ quizControl.addQuestion(
 )
 ```
 
-## Iniciando o Quiz
+### Iniciando o Quiz
 Dentro do seu arquivo JS basta utilizar do DOM para pegar a div que foi criada nos passos anteriores e chamar a função start
 ```js
 quizControl.start(document.getElementById('quizJSContainer'))
