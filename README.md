@@ -1,5 +1,6 @@
 # Documentação
 ##### QuizJS é uma biblioteca simples para a criação de Quizzes com HTML e Javascript
+<img src="https://i.imgur.com/8iH76R0.gif">
 
 # Iniciando
 
