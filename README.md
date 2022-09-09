@@ -71,7 +71,7 @@ quizControl.setShuffleQuestions(true) // Por padrão é false
 ```
 
 Escolhendo o tema
-```
+```js
 // Por padrão é dark
 quizControl.setTheme('light')
 ```
